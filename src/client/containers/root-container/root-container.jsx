@@ -38,7 +38,9 @@ export default class Root extends Component {
         .then(lastSubmission =>
           lastSubmission.error ?
           this.setState({ submitError: lastSubmission.error }) :
-          this.setState({ lastSubmission, submitError: null })
+          this.setState({ lastSubmission, submitError: null }, () =>
+            lastSubmission.palindrome ? this.retrieveFromService(type) : null
+          )
         )
         .catch(submitError => this.setState({ submitError }))
     } else {
@@ -74,6 +76,7 @@ export default class Root extends Component {
       storedPalindromes,
       palindromesRequested,
     } = this.state;
+    console.log(lastSubmission);
     return (
       <div id="root-container" style={styles.container}>
         <input
